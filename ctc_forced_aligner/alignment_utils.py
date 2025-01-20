@@ -62,6 +62,8 @@ def get_spans(tokens, segments, blank):
         ltr = cur_token[ltr_idx]
         if seg.label == blank:
             continue
+        print('seg.label: ',seg.label)
+        print('ltr: ',ltr)
         assert seg.label == ltr, f"{seg.label} != {ltr}"
         if (ltr_idx) == 0:
             start = seg_idx
@@ -237,7 +239,7 @@ def get_alignments(
 
     blank_id = dictionary.get("<blank>", tokenizer.pad_token_id)
 
-    if not emissions.is_cpu:
+    if emissions.is_cuda:
         emissions = emissions.cpu()
     targets = np.asarray([token_indices], dtype=np.int64)
 
